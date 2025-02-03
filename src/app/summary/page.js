@@ -1,5 +1,4 @@
 import CartSummary from "@/components/checkout/CartSummary";
-import SendEnquiryButton from "@/components/checkout/SendEnquiryButton";
 import ShippingInformation from "@/components/checkout/ShippingInformation";
 
 const Checkout = () => {

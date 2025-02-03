@@ -2,24 +2,30 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import InputField from "./InputField"; // Import the reusable InputField component
+import InputField from "./InputField";
+import { useCart } from "@/contexts/CartContext";
+import handleError from "@/utils/handleError";
+import api from "@/lib/api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .required("Full Name is required")
+    .min(2, "Name must be at least 2 characters"),
+  mobile: Yup.string()
+    .required("Mobile Number is required")
+    .matches(/^[0-9]{10}$/, "Mobile Number must be exactly 10 digits"),
+  address: Yup.string()
+    .required("Address is required")
+    .min(10, "Address must be at least 10 characters"),
+  notes: Yup.string(),
+});
 
 const ShippingInformation = () => {
-  // Form validation schema using Yup
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("Full Name is required")
-      .min(2, "Name must be at least 2 characters"),
-    mobile: Yup.string()
-      .required("Mobile Number is required")
-      .matches(/^[0-9]{10}$/, "Mobile Number must be exactly 10 digits"),
-    address: Yup.string()
-      .required("Address is required")
-      .min(10, "Address must be at least 10 characters"),
-    notes: Yup.string(),
-  });
+  const { items, clearCart } = useCart();
+  const router = useRouter();
 
-  // Setting up Formik
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -28,10 +34,26 @@ const ShippingInformation = () => {
       notes: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      alert("Shipping Information Submitted!");
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        await api.enquiries.create({
+          cart: items,
+          customerDetails: {
+            fullName: values.name,
+            mobile: values.mobile,
+            address: values.address,
+            notes: values.notes,
+          },
+        });
+        toast.success(
+          "We have received your enquiry. Our team will contact you soon."
+        );
+        clearCart();
+        formik.resetForm();
+        router.replace("/");
+      } catch (error) {
+        handleError(error);
+      }
     },
   });
 

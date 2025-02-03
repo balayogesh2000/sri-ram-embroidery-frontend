@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useMemo } from "react";
 
 const CartContext = createContext({
-  products: [],
+  items: [],
   total: 0,
   addToCart: () => {},
   removeFromCart: () => {},
@@ -13,48 +13,58 @@ const CartContext = createContext({
 export const useCart = () => useContext(CartContext);
 
 export const CartContextProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+  const [items, setItems] = useState([]);
 
   const total = useMemo(
-    () =>
-      products.reduce((sum, { price, quantity }) => sum + price * quantity, 0),
-    [products]
+    () => items.reduce((sum, { price, quantity }) => sum + price * quantity, 0),
+    [items]
   );
 
-  const addToCart = ({ id, name, price }) => {
-    setProducts((prevProducts) => {
-      const existingProduct = prevProducts.find((p) => p.id === id);
-      if (existingProduct) {
-        return prevProducts.map((p) =>
-          p.id === id ? { ...p, quantity: p.quantity + 1 } : p
+  const addToCart = ({ productId, title, price, imageUploadId }) => {
+    setItems((prevItems) => {
+      const existingItem = prevItems.find(
+        (item) => item.productId === productId
+      );
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       } else {
-        return [...prevProducts, { id, name, price, quantity: 1 }];
+        return [
+          ...prevItems,
+          { productId, title, price, quantity: 1, imageUploadId },
+        ];
       }
     });
   };
 
-  const removeFromCart = (productId) => {
-    setProducts((prevProducts) => {
-      const productToRemove = prevProducts.find((p) => p.id === productId);
-      if (!productToRemove) return prevProducts;
+  const removeFromCart = ({ productId }) => {
+    setItems((prevItems) => {
+      const existingItem = prevItems.find(
+        (item) => item.productId === productId
+      );
+      if (!existingItem) return prevItems;
 
-      if (productToRemove.quantity === 1) {
-        return prevProducts.filter((p) => p.id !== productId);
+      if (existingItem.quantity === 1) {
+        return prevItems.filter((item) => item.productId !== productId);
       } else {
-        return prevProducts.map((p) =>
-          p.id === productId ? { ...p, quantity: p.quantity - 1 } : p
+        return prevItems.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
         );
       }
     });
   };
 
   const clearCart = () => {
-    setProducts([]);
+    setItems([]);
   };
 
   const contextValue = {
-    products,
+    items,
     total,
     addToCart,
     removeFromCart,

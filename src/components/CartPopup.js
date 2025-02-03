@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation";
 
 export default function CartPopup() {
   const router = useRouter();
-  const { products, clearCart } = useCart();
+  const { items, clearCart } = useCart();
 
-  const totalItems = products.reduce((total, item) => total + item.quantity, 0);
-  const totalPrice = products.reduce(
+  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+  const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
   if (totalItems === 0) {
-    return null; // Hide the popup when the cart is empty
+    return null;
   }
 
   return (

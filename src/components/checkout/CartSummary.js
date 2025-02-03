@@ -3,37 +3,43 @@
 import { useCart } from "@/contexts/CartContext";
 
 const CartSummary = () => {
-  const { products, total, removeFromCart, addToCart } = useCart();
+  const { items, total, removeFromCart, addToCart } = useCart();
 
-  const handleIncreaseQuantity = (itemId) => {
-    addToCart({ id: itemId }); // Add one more quantity
+  const handleIncreaseQuantity = ({ productId }) => {
+    addToCart({ productId });
   };
 
-  const handleDecreaseQuantity = (itemId) => {
-    removeFromCart(itemId); // Remove one quantity
+  const handleDecreaseQuantity = ({ productId }) => {
+    removeFromCart({ productId });
   };
 
   return (
     <div className="mt-8">
       <ul className="mt-4">
-        {products.map((item) => (
-          <li key={item.id} className="flex justify-between items-center py-2">
+        {items.map((item) => (
+          <li
+            key={item.productId}
+            className="flex justify-between items-center py-2"
+          >
             <span>
-              {item.name} (x{item.quantity})
+              {item.title} (x{item.quantity})
             </span>
             <span>₹{(item.price * item.quantity).toFixed(2)}</span>
             <div className="flex items-center space-x-2">
               <button
                 className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
-                onClick={() => handleDecreaseQuantity(item.id)} // Decrease quantity
+                onClick={() =>
+                  handleDecreaseQuantity({ productId: item.productId })
+                }
               >
                 <span className="text-lg font-semibold">-</span>
               </button>
-              <span className="text-lg font-medium">{item.quantity}</span>{" "}
-              {/* Display current quantity */}
+              <span className="text-lg font-medium">{item.quantity}</span>
               <button
                 className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
-                onClick={() => handleIncreaseQuantity(item.id)} // Increase quantity
+                onClick={() =>
+                  handleIncreaseQuantity({ productId: item.productId })
+                }
               >
                 <span className="text-lg font-semibold">+</span>
               </button>
