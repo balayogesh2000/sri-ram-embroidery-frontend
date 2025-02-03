@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
+import handleError from "@/utils/handleError";
 
 export default function Gallery() {
   const { items, addToCart, removeFromCart } = useCart();
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,7 +19,9 @@ export default function Gallery() {
         } = await api.products.getAll();
         setProducts(products);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -48,60 +52,67 @@ export default function Gallery() {
           Collections
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="group relative w-full h-80 rounded overflow-hidden shadow-lg"
-            >
-              <Image
-                src={product.imageUpload.s3Location}
-                alt={product.imageUpload.filename}
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-300 group-hover:scale-110"
-              />
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="w-full h-80 bg-gray-200 animate-pulse rounded shadow-lg"
+                />
+              ))
+            : products.map((product) => (
+                <div
+                  key={product._id}
+                  className="group relative w-full h-80 rounded overflow-hidden shadow-lg"
+                >
+                  <Image
+                    src={product.imageUpload.s3Location}
+                    alt={product.imageUpload.filename}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-300 group-hover:scale-110"
+                  />
 
-              <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-              <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
-                {product.title}
-              </div>
-
-              <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
-                <span className="block">₹{product.price}</span>
-
-                {isInCart({ productId: product._id }) ? (
-                  <div className="flex items-center mt-2">
-                    <button
-                      onClick={() => handleDecrement(product)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">
-                      {
-                        items.find((item) => item.productId === product._id)
-                          .quantity
-                      }
-                    </span>
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded"
-                    >
-                      +
-                    </button>
+                  <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
+                    {product.title}
                   </div>
-                ) : (
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-                  >
-                    Select
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
+
+                  <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded">
+                    <span className="block">₹{product.price}</span>
+
+                    {isInCart({ productId: product._id }) ? (
+                      <div className="flex items-center mt-2">
+                        <button
+                          onClick={() => handleDecrement(product)}
+                          className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+                        >
+                          -
+                        </button>
+                        <span className="mx-2">
+                          {
+                            items.find((item) => item.productId === product._id)
+                              .quantity
+                          }
+                        </span>
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                      >
+                        Select
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
         </div>
       </div>
     </section>
