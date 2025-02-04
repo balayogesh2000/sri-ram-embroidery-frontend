@@ -32,7 +32,7 @@ export default function CartPopup() {
       {/* Right Section: Review Button + Clear Icon */}
       <div className="flex items-center gap-3">
         <button
-          className="bg-white text-green-600 hover:bg-gray-100 py-1 px-3 rounded-md text-sm font-medium"
+          className="bg-white text-green-600 hover:bg-gray-100 py-2 px-5 rounded-md text-sm font-medium"
           onClick={() => router.push("/summary")}
         >
           Review

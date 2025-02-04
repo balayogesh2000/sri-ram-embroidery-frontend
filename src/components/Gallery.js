@@ -46,7 +46,7 @@ export default function Gallery() {
   };
 
   return (
-    <section className="py-16 px-4" id="gallery">
+    <section className="py-10 px-4" id="gallery">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-semibold text-center text-gray-800">
           Collections
@@ -85,19 +85,19 @@ export default function Gallery() {
                       <div className="flex items-center mt-2">
                         <button
                           onClick={() => handleDecrement(product)}
-                          className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+                          className="bg-red-500 hover:bg-red-600 text-white py-1 w-8 rounded"
                         >
                           -
                         </button>
                         <span className="mx-2">
                           {
                             items.find((item) => item.productId === product._id)
-                              .quantity
+                              ?.quantity
                           }
                         </span>
                         <button
                           onClick={() => handleAddToCart(product)}
-                          className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded"
+                          className="bg-green-500 hover:bg-green-600 text-white py-1 w-8 rounded"
                         >
                           +
                         </button>
@@ -105,7 +105,7 @@ export default function Gallery() {
                     ) : (
                       <button
                         onClick={() => handleAddToCart(product)}
-                        className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                        className="mt-2 bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded"
                       >
                         Select
                       </button>
