@@ -20,7 +20,7 @@ export const CartContextProvider = ({ children }) => {
     [items]
   );
 
-  const addToCart = ({ productId, title, price, imageUploadId }) => {
+  const addToCart = ({ productId, title, price }) => {
     setItems((prevItems) => {
       const existingItem = prevItems.find(
         (item) => item.productId === productId
@@ -32,10 +32,7 @@ export const CartContextProvider = ({ children }) => {
             : item
         );
       } else {
-        return [
-          ...prevItems,
-          { productId, title, price, quantity: 1, imageUploadId },
-        ];
+        return [...prevItems, { productId, title, price, quantity: 1 }];
       }
     });
   };

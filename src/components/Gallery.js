@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import handleError from "@/utils/handleError";
 
@@ -10,6 +11,7 @@ export default function Gallery() {
   const { items, addToCart, removeFromCart } = useCart();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,7 +35,6 @@ export default function Gallery() {
       productId: product._id,
       title: product.title,
       price: product.price,
-      imageUploadId: product.imageUpload._id,
     });
   };
 
@@ -62,11 +63,12 @@ export default function Gallery() {
             : products.map((product) => (
                 <div
                   key={product._id}
-                  className="group relative w-full h-80 rounded overflow-hidden shadow-lg"
+                  className="group relative w-full h-80 rounded overflow-hidden shadow-lg cursor-pointer"
+                  onClick={() => router.push(`/product/${product._id}`)}
                 >
                   <Image
-                    src={product.imageUpload.s3Location}
-                    alt={product.imageUpload.filename}
+                    src={product.images[0]?.s3Location || "/placeholder.png"}
+                    alt={product.title}
                     layout="fill"
                     objectFit="cover"
                     className="transition-transform duration-300 group-hover:scale-110"
@@ -84,7 +86,10 @@ export default function Gallery() {
                     {isInCart({ productId: product._id }) ? (
                       <div className="flex items-center mt-2">
                         <button
-                          onClick={() => handleDecrement(product)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDecrement(product);
+                          }}
                           className="bg-red-500 hover:bg-red-600 text-white py-1 w-8 rounded"
                         >
                           -
@@ -96,7 +101,10 @@ export default function Gallery() {
                           }
                         </span>
                         <button
-                          onClick={() => handleAddToCart(product)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddToCart(product);
+                          }}
                           className="bg-green-500 hover:bg-green-600 text-white py-1 w-8 rounded"
                         >
                           +
@@ -104,7 +112,10 @@ export default function Gallery() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => handleAddToCart(product)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
                         className="mt-2 bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded"
                       >
                         Select
