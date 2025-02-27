@@ -37,7 +37,10 @@ const ShippingInformation = () => {
     onSubmit: async (values) => {
       try {
         await api.enquiries.create({
-          cart: items,
+          cart: items.map((item) => ({
+            productId: item.product._id,
+            quantity: item.quantity,
+          })),
           customerDetails: {
             fullName: values.name,
             mobile: values.mobile,
