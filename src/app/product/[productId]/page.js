@@ -15,6 +15,7 @@ import { useParams, useRouter } from "next/navigation";
 import api from "@/lib/api";
 import handleError from "@/utils/handleError";
 import { useCart } from "@/contexts/CartContext";
+import CartDisplay from "@/components/CartDisplay";
 
 export default function ProductPage() {
   const { items, addToCart, removeFromCart } = useCart();
@@ -85,10 +86,11 @@ export default function ProductPage() {
 
   return (
     <section className="max-w-4xl mx-auto p-6">
-      <div className="mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <button onClick={handleBackClick} className="text-gray-600">
           <ArrowLeft size={24} /> {/* Only the back icon */}
         </button>
+        <CartDisplay />
       </div>
       <div className="grid md:grid-cols-2 gap-6 items-stretch">
         {/* Image Carousel Section */}

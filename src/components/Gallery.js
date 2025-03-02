@@ -18,7 +18,7 @@ export default function Gallery() {
       try {
         const {
           data: { products },
-        } = await api.products.getAll();
+        } = await api.products.getAllActiveProducts();
         setProducts(products);
       } catch (error) {
         handleError(error);

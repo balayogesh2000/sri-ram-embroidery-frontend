@@ -38,7 +38,7 @@ const ShippingInformation = () => {
       try {
         await api.enquiries.create({
           cart: items.map((item) => ({
-            productId: item.product._id,
+            productId: item.productId,
             quantity: item.quantity,
           })),
           customerDetails: {
@@ -74,7 +74,6 @@ const ShippingInformation = () => {
           onBlur={formik.handleBlur}
           error={formik.touched.name && formik.errors.name}
         />
-
         <InputField
           label="Mobile Number"
           name="mobile"
@@ -84,7 +83,6 @@ const ShippingInformation = () => {
           error={formik.touched.mobile && formik.errors.mobile}
           mobile
         />
-
         <InputField
           label="Address"
           name="address"
@@ -95,7 +93,6 @@ const ShippingInformation = () => {
           error={formik.touched.address && formik.errors.address}
           rows={4}
         />
-
         <InputField
           label="Any Special Instructions?"
           name="notes"
@@ -105,7 +102,6 @@ const ShippingInformation = () => {
           onBlur={formik.handleBlur}
           rows={4}
         />
-
         <div className="mt-8 flex justify-end">
           <button
             type="submit"
