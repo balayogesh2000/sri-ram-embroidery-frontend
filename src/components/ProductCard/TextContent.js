@@ -1,11 +1,12 @@
+import Link from "next/link";
+
 const TextContent = ({ product }) => {
   const discountPercentage = Math.round(
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   );
-
   return (
-    <>
-      <h2 className="text-lg font-semibold text-gray-800 truncate">
+    <Link href={`/product/${product._id}`}>
+      <h2 className="text-lg font-semibold text-gray-800 truncate hover:text-green-600">
         {product.title}
       </h2>
       <p className="text-gray-500 text-sm truncate">
@@ -20,7 +21,7 @@ const TextContent = ({ product }) => {
           ({discountPercentage}% off)
         </p>
       </div>
-    </>
+    </Link>
   );
 };
 
