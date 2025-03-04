@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -14,14 +13,12 @@ import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/lib/api";
 import handleError from "@/utils/handleError";
-import { useCart } from "@/contexts/CartContext";
 import CartDisplay from "@/components/CartDisplay";
+import AddToCartSection from "@/components/ProductCard/AddToCartSection";
 
 export default function ProductPage() {
-  const { items, addToCart, removeFromCart } = useCart();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [quantity, setQuantity] = useState(0); // State for quantity selection
   const router = useRouter();
   const { productId } = useParams();
 
@@ -67,22 +64,6 @@ export default function ProductPage() {
   const discountPercentage = Math.round(
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   );
-
-  const isInCart = ({ productId }) => {
-    return items.find((item) => item.productId === productId);
-  };
-
-  const handleAddToCart = () => {
-    addToCart({
-      productId: product._id,
-      title: product.title,
-      price: product.price,
-    });
-  };
-
-  const handleDecrement = () => {
-    removeFromCart({ productId: product._id });
-  };
 
   return (
     <section className="max-w-4xl mx-auto p-6">
@@ -152,48 +133,7 @@ export default function ProductPage() {
               <span className="font-semibold">Pockets:</span> {product.pockets}
             </li>
           </ul>
-
-          <div className="mt-4">
-            {" "}
-            {isInCart({ productId: product._id }) ? (
-              <div className="flex items-center mt-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDecrement(product);
-                  }}
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 w-8 rounded"
-                >
-                  -
-                </button>
-                <span className="mx-2">
-                  {
-                    items.find((item) => item.productId === product._id)
-                      ?.quantity
-                  }
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToCart(product);
-                  }}
-                  className="bg-green-500 hover:bg-green-600 text-white py-1 w-8 rounded"
-                >
-                  +
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAddToCart(product);
-                }}
-                className="mt-2 bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded w-full"
-              >
-                Select
-              </button>
-            )}
-          </div>
+          <AddToCartSection product={product} />
         </div>
       </div>
     </section>
