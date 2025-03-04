@@ -35,7 +35,7 @@ export default function CartPopup() {
           className="bg-white text-green-600 hover:bg-gray-100 py-2 px-5 rounded-md text-sm font-medium"
           onClick={() => router.push("/summary")}
         >
-          Review
+          Checkout
         </button>
         <button onClick={clearCart} className="hover:text-red-300">
           <X size={20} />

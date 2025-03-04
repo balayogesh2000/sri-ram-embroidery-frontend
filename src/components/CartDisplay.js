@@ -28,7 +28,7 @@ export default function CartDisplay() {
         className="bg-green-500 text-white text-xs font-medium px-3 py-1 rounded-md hover:bg-green-600"
         onClick={() => router.push("/summary")}
       >
-        Review
+        Checkout
       </button>
       <button onClick={clearCart} className="text-gray-500 hover:text-red-400">
         <X size={16} />

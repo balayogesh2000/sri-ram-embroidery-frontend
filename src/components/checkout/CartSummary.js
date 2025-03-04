@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/contexts/CartContext";
+import Link from "next/link";
 
 const CartSummary = () => {
   const { items, total, removeFromCart, addToCart } = useCart();
@@ -14,43 +15,65 @@ const CartSummary = () => {
   };
 
   return (
-    <div className="mt-8">
-      <ul className="mt-4">
-        {items.map((item) => (
-          <li
-            key={item.productId}
-            className="flex justify-between items-center py-2"
+    <div className="mt-8 px-4">
+      {items.length === 0 ? (
+        <div className="text-center py-10">
+          <p className="text-lg font-medium text-gray-600">
+            Your cart is empty!
+          </p>
+          <Link
+            href="/#gallery"
+            className="mt-4 inline-block bg-green-600 text-white px-6 py-2 rounded-lg text-lg font-semibold hover:bg-green-700 transition duration-200"
           >
-            <span>
-              {item.title} (x{item.quantity})
-            </span>
-            <span>₹{(item.price * item.quantity).toFixed(2)}</span>
-            <div className="flex items-center space-x-2">
-              <button
-                className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
-                onClick={() =>
-                  handleDecreaseQuantity({ productId: item.productId })
-                }
+            Browse Collections
+          </Link>
+        </div>
+      ) : (
+        <>
+          <ul className="mt-4 space-y-4">
+            {items.map((item) => (
+              <li
+                key={item.productId}
+                className="bg-white p-4 rounded-lg shadow-md"
               >
-                <span className="text-lg font-semibold">-</span>
-              </button>
-              <span className="text-lg font-medium">{item.quantity}</span>
-              <button
-                className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
-                onClick={() =>
-                  handleIncreaseQuantity({ productId: item.productId })
-                }
-              >
-                <span className="text-lg font-semibold">+</span>
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-4 flex justify-between items-center">
-        <span className="font-medium">Total</span>
-        <span className="font-semibold text-xl">₹{total.toFixed(2)}</span>
-      </div>
+                {/* Title on one line */}
+                <div className="text-lg font-medium truncate">{item.title}</div>
+
+                {/* Quantity controls & price on next line */}
+                <div className="flex justify-between items-center mt-2">
+                  <div className="flex items-center space-x-3">
+                    <button
+                      className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
+                      onClick={() =>
+                        handleDecreaseQuantity({ productId: item.productId })
+                      }
+                    >
+                      <span className="text-lg font-semibold">-</span>
+                    </button>
+                    <span className="text-lg font-medium">{item.quantity}</span>
+                    <button
+                      className="w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-600 hover:bg-gray-300 transition duration-200"
+                      onClick={() =>
+                        handleIncreaseQuantity({ productId: item.productId })
+                      }
+                    >
+                      <span className="text-lg font-semibold">+</span>
+                    </button>
+                  </div>
+                  <span className="text-lg font-semibold">
+                    ₹{(item.price * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 flex justify-between items-center text-lg font-semibold border-t pt-4">
+            <span>Total</span>
+            <span className="text-xl text-green-600">₹{total.toFixed(2)}</span>
+          </div>
+        </>
+      )}
     </div>
   );
 };

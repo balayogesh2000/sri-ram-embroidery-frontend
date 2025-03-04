@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react"; // Import the ArrowLeft icon from lucide-react
 import CartSummary from "@/components/checkout/CartSummary";
 import ShippingInformation from "@/components/checkout/ShippingInformation";
+import { useCart } from "@/contexts/CartContext";
 
 const Checkout = () => {
+  const { items } = useCart();
   const router = useRouter();
 
   const handleBackClick = () => {
@@ -26,7 +28,7 @@ const Checkout = () => {
           </h2>
         </div>
         <CartSummary />
-        <ShippingInformation />
+        {items.length > 0 && <ShippingInformation />}
       </div>
     </section>
   );

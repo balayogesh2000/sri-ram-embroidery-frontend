@@ -61,7 +61,9 @@ const ShippingInformation = () => {
   });
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 pb-20">
+      {" "}
+      {/* Added padding-bottom to prevent content cutoff */}
       <h3 className="text-xl font-medium text-gray-700">
         Shipping Information
       </h3>
@@ -102,15 +104,17 @@ const ShippingInformation = () => {
           onBlur={formik.handleBlur}
           rows={4}
         />
-        <div className="mt-8 flex justify-end">
-          <button
-            type="submit"
-            className="bg-green-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-green-600 transition duration-200"
-          >
-            Send Enquiry
-          </button>
-        </div>
       </form>
+      {/* Sticky Button */}
+      <div className="fixed bottom-0 left-0 w-full bg-white p-4 shadow-md border-t">
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-green-600 transition duration-200"
+          onClick={formik.handleSubmit}
+        >
+          Send Enquiry
+        </button>
+      </div>
     </div>
   );
 };
