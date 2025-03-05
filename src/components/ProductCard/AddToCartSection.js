@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 const AddToCartSection = ({ product }) => {
   const { items, addToCart, removeFromCart } = useCart();
-  const cartItem = items.find((item) => item.productId === product._id);
+  const cartItem = items.find((item) => item.product._id === product._id);
   const router = useRouter();
 
   return (
@@ -14,7 +14,7 @@ const AddToCartSection = ({ product }) => {
           {/* Quantity Control */}
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => removeFromCart({ productId: product._id })}
+              onClick={() => removeFromCart(product._id)}
               className="bg-red-500 hover:bg-red-600 text-white px-3 rounded-lg h-10 flex items-center justify-center"
             >
               -
@@ -23,13 +23,7 @@ const AddToCartSection = ({ product }) => {
               {cartItem.quantity}
             </span>
             <button
-              onClick={() =>
-                addToCart({
-                  productId: product._id,
-                  title: product.title,
-                  price: product.price,
-                })
-              }
+              onClick={() => addToCart(product)}
               className="bg-green-500 hover:bg-green-600 text-white px-3 rounded-lg h-10 flex items-center justify-center"
             >
               +
@@ -47,13 +41,7 @@ const AddToCartSection = ({ product }) => {
         </>
       ) : (
         <button
-          onClick={() =>
-            addToCart({
-              productId: product._id,
-              title: product.title,
-              price: product.price,
-            })
-          }
+          onClick={() => addToCart(product)}
           className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg h-10 flex items-center justify-center"
         >
           Add to Cart

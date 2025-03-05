@@ -10,7 +10,7 @@ export default function CartPopup() {
 
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
 

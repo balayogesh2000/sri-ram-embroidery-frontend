@@ -38,7 +38,7 @@ const ShippingInformation = () => {
       try {
         await api.enquiries.create({
           cart: items.map((item) => ({
-            productId: item.productId,
+            productId: item.product._id,
             quantity: item.quantity,
           })),
           customerDetails: {

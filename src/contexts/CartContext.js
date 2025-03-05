@@ -16,39 +16,41 @@ export const CartContextProvider = ({ children }) => {
   const [items, setItems] = useState([]);
 
   const total = useMemo(
-    () => items.reduce((sum, { price, quantity }) => sum + price * quantity, 0),
+    () =>
+      items.reduce(
+        (sum, { product, quantity }) => sum + product.price * quantity,
+        0
+      ),
     [items]
   );
 
-  const addToCart = ({ productId, title, price }) => {
+  const addToCart = (product) => {
     setItems((prevItems) => {
       const existingItem = prevItems.find(
-        (item) => item.productId === productId
+        (item) => item.product._id === product._id
       );
       if (existingItem) {
         return prevItems.map((item) =>
-          item.productId === productId
+          item.product._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        return [...prevItems, { productId, title, price, quantity: 1 }];
+        return [...prevItems, { product, quantity: 1 }];
       }
     });
   };
 
-  const removeFromCart = ({ productId }) => {
+  const removeFromCart = (_id) => {
     setItems((prevItems) => {
-      const existingItem = prevItems.find(
-        (item) => item.productId === productId
-      );
+      const existingItem = prevItems.find((item) => item.product._id === _id);
       if (!existingItem) return prevItems;
 
       if (existingItem.quantity === 1) {
-        return prevItems.filter((item) => item.productId !== productId);
+        return prevItems.filter((item) => item.product._id !== _id);
       } else {
         return prevItems.map((item) =>
-          item.productId === productId
+          item.product._id === _id
             ? { ...item, quantity: item.quantity - 1 }
             : item
         );
