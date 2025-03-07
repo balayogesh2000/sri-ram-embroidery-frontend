@@ -34,7 +34,10 @@ const CartSummary = () => {
         <>
           <ul className="mt-3 space-y-3">
             {items.map((item) => (
-              <li key={item.productId} className="flex items-center space-x-3">
+              <li
+                key={item.product._id}
+                className="flex items-center space-x-3"
+              >
                 {/* Product Image */}
                 {item.product.images.length > 0 && (
                   <div className="w-12 h-12 sm:w-16 sm:h-16 relative flex-shrink-0">
