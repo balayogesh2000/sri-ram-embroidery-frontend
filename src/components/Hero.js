@@ -19,13 +19,13 @@ const Hero = () => {
         className="relative text-center px-6"
       >
         <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-2xl shadow-black">
-          Gandhiram
+          Sri ram
         </h1>
         <p className="mt-3 text-xl md:text-2xl text-gray-300 drop-shadow-lg">
           Handcrafted Luxury Handbags
         </p>
         <p className="mt-4 text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-          <span className="text-white font-semibold">Gandhiram</span> creates
+          <span className="text-white font-semibold">Sri ram</span> creates
           exquisite, hand-embroidered handbags that combine artistry and
           tradition.
         </p>

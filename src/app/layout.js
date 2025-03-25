@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientProviders from "./ClientProviders";
 
 export const metadata = {
-  title: "Gandhiram Embroidery",
+  title: "Sri Ram Embroidery",
   description: "Handcrafted Embroidered Handbags",
 };
 
