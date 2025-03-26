@@ -27,7 +27,7 @@ const ImageSlider = ({ product }) => {
                     alt={product.title}
                     width={400}
                     height={300}
-                    className="rounded-t-lg w-full h-full object-cover"
+                    className="rounded-t-lg w-full h-full object-contain"
                   />
                 </div>
               </SwiperSlide>

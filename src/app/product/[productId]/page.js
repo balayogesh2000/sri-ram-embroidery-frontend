@@ -85,7 +85,7 @@ export default function ProductPage() {
                       src={image.s3Location}
                       alt={`Handbag ${index + 1}`}
                       layout="fill"
-                      objectFit="cover"
+                      objectFit="contain"
                       className="rounded-lg shadow-lg"
                     />
                   </div>
