@@ -80,7 +80,7 @@ export default function ProductPage() {
             <CarouselContent>
               {product.images.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative w-full h-96">
+                  <div className="relative w-full h-[32rem]">
                     <Image
                       src={image.s3Location}
                       alt={`Handbag ${index + 1}`}
