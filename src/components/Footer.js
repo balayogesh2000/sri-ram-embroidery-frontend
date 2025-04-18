@@ -37,7 +37,7 @@ export default function Footer() {
               href="https://www.google.com/maps/place/Gandhiram+Homemade+Food/@13.0156989,80.2417275,640m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3a5267f172d88c13:0x162b8fc78bb01377!8m2!3d13.0156937!4d80.2443024!16s%2Fg%2F11mv4x1m1p?entry=ttu"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-white hover:text-gray-200"
+              className="inline-flex items-center gap-2 text-white hover:text-gray-200"
               aria-label="Google Maps Location"
             >
               <MapPin size={16} className="shrink-0" />
@@ -48,7 +48,7 @@ export default function Footer() {
             {/* Phone */}
             <Link
               href="tel:9962109574"
-              className="flex items-center gap-2 text-white hover:text-gray-200"
+              className="inline-flex items-center gap-2 text-white hover:text-gray-200"
               aria-label="Call Phone"
             >
               <Phone size={16} className="shrink-0" />
