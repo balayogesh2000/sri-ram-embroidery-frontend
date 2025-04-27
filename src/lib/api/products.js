@@ -1,8 +1,7 @@
 import { axiosServerInstance } from ".";
 
 const products = {
-  getAllActiveProducts: async () =>
-    (await axiosServerInstance.get("/products/active")).data,
+  getAllProducts: async () => (await axiosServerInstance.get("/products")).data,
   getOne: async (id) => (await axiosServerInstance.get(`/products/${id}`)).data,
 };
 
