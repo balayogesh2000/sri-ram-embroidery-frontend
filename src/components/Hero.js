@@ -30,7 +30,7 @@ const Hero = () => {
           tradition.
         </p>
         <motion.a
-          href="#gallery"
+          href="#collections"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mt-8 inline-block bg-green-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-green-600 transition duration-200"
