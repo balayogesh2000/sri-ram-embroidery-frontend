@@ -11,6 +11,7 @@ import CollectionCardSkeleton from "@/components/Collections/CollectionCardSkele
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
+import handleError from "@/utils/handleError";
 
 const CollectionCard = ({ collection }) => {
   const images = (collection.products || []).map((product) => ({
@@ -78,7 +79,6 @@ const CollectionCard = ({ collection }) => {
 const Collections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -87,7 +87,7 @@ const Collections = () => {
         const { data } = await api.collections.getAll();
         setCollections(data.collections || []);
       } catch (err) {
-        setError(err.message);
+        handleError(err);
       } finally {
         setLoading(false);
       }
@@ -108,14 +108,6 @@ const Collections = () => {
           ))}
         </div>
       </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500 font-semibold mt-6">
-        Error: {error}
-      </div>
     );
   }
 
